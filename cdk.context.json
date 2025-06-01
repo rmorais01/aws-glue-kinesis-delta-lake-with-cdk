@@ -1,0 +1,20 @@
+{
+  "kinesis_stream_name": "deltalake-demo-stream",
+  "glue_assets_s3_bucket_name": "aws-glue-assets-rm-demo",
+  "glue_job_script_file_name": "spark_kinesis_to_deltalake_publisher.py",
+  "glue_job_name": "streaming_data_from_kds_into_deltalake_table",
+  "glue_job_input_arguments": {
+    "--catalog": "spark_catalog",
+    "--database_name": "deltalake_db",
+    "--table_name": "products",
+    "--primary_key": "product_id",
+    "--partition_key": "category",
+    "--starting_position_of_kinesis_iterator": "LATEST",
+    "--delta_s3_path": "s3://glue-deltalake-rm-demo-us-east-1/deltalake_db/products",
+    "--aws_region": "us-east-1",
+    "--window_size": "100 seconds",
+    "--extra-jars": "s3://aws-glue-assets-rm-demo/extra-jars/aws-sdk-java-2.17.224.jar",
+    "--user-jars-first": "true"
+  },
+  "glue_connections_name": "deltalake-connector-1_0_0"
+}
