@@ -43,8 +43,6 @@ DATABASE = args['database_name']
 TABLE_NAME = args['table_name']
 PARTITION_KEY = args['partition_key']
 
-#KINESIS_DATABASE_NAME = args['kinesis_database_name']
-#KINESIS_TABLE_NAME = args['kinesis_table_name']
 KINESIS_STREAM_ARN = args['kinesis_stream_arn']
 KINESIS_STREAM_NAME = get_kinesis_stream_name_from_arn(KINESIS_STREAM_ARN)
 
@@ -109,18 +107,17 @@ streaming_data_df = streaming_data \
 
 checkpointPath = os.path.join(args["TempDir"], args["JOB_NAME"], "checkpoint/")
 
-
 #query = streaming_data_df.writeStream \
-#    .format("delta") \
-#    .outputMode("append") \
+#    .format("console") \
 #    .trigger(processingTime=WINDOW_SIZE) \
-#    .option("path", DELTA_S3_PATH) \
 #    .option("checkpointLocation", checkpointPath) \
 #    .start()
 
 query = streaming_data_df.writeStream \
-    .format("console") \
+    .format("delta") \
+    .outputMode("append") \
     .trigger(processingTime=WINDOW_SIZE) \
+    .option("path", DELTA_S3_PATH) \
     .option("checkpointLocation", checkpointPath) \
     .start()
 
