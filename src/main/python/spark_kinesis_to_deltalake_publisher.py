@@ -52,6 +52,13 @@ STARTING_POSITION_OF_KINESIS_ITERATOR = args.get('starting_position_of_kinesis_i
 AWS_REGION = args['aws_region']
 WINDOW_SIZE = args.get('window_size', '100 seconds')
 
+conf_list = [
+    (f"spark.sql.catalog.{CATALOG}", "org.apache.spark.sql.delta.catalog.DeltaCatalog"),
+    ("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
+]
+conf = SparkConf().setAll(conf_list)
+# Set the Spark + Glue context
+sc = SparkContext(conf=conf)
 
 # Set the Spark + Glue context
 sc = SparkContext()
