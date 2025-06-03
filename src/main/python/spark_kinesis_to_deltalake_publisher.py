@@ -47,23 +47,14 @@ KINESIS_STREAM_ARN = args['kinesis_stream_arn']
 KINESIS_STREAM_NAME = get_kinesis_stream_name_from_arn(KINESIS_STREAM_ARN)
 
 #XXX: starting_position_of_kinesis_iterator: ['LATEST', 'TRIM_HORIZON']
-STARTING_POSITION_OF_KINESIS_ITERATOR = args.get('starting_position_of_kinesis_iterator', 'LATEST')
+STARTING_POSITION_OF_KINESIS_ITERATOR = args.get('starting_position_of_kinesis_iterator', 'TRIM_HORIZON')
 
 AWS_REGION = args['aws_region']
 WINDOW_SIZE = args.get('window_size', '100 seconds')
 
 
-def setSparkDeltalakeConf() -> SparkConf:
-  conf_list = [
-    (f"spark.sql.catalog.{CATALOG}", "org.apache.spark.sql.delta.catalog.DeltaCatalog"),
-    ("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
-  ]
-  spark_conf = SparkConf().setAll(conf_list)
-  return spark_conf
-
 # Set the Spark + Glue context
-conf = setSparkDeltalakeConf()
-sc = SparkContext(conf=conf)
+sc = SparkContext()
 glueContext = GlueContext(sc)
 spark = glueContext.spark_session
 job = Job(glueContext)

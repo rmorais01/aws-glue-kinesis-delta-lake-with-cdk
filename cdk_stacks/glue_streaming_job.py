@@ -38,7 +38,7 @@ class GlueStreamingJobStack(Stack):
 
     glue_job_name = self.node.try_get_context('glue_job_name')
 
-    glue_connections_name = self.node.try_get_context('glue_connections_name')
+    #glue_connections_name = self.node.try_get_context('glue_connections_name')
 
     glue_cfn_job = aws_glue.CfnJob(self, "GlueStreamingETLJob",
       command=aws_glue.CfnJob.JobCommandProperty(
@@ -54,16 +54,16 @@ class GlueStreamingJobStack(Stack):
       #XXX: Set only AllocatedCapacity or MaxCapacity
       # Do not set Allocated Capacity if using Worker Type and Number of Workers
       # allocated_capacity=2,
-      connections=aws_glue.CfnJob.ConnectionsListProperty(
-        connections=[glue_connections_name]
-      ),
+      #connections=aws_glue.CfnJob.ConnectionsListProperty(
+      #  connections=[glue_connections_name]
+      #),
       default_arguments=glue_job_default_arguments,
       description="This job loads the data from Kinesis Data Streams to Apache Iceberg table in S3.",
       execution_property=aws_glue.CfnJob.ExecutionPropertyProperty(
         max_concurrent_runs=1
       ),
       #XXX: check AWS Glue Version in https://docs.aws.amazon.com/glue/latest/dg/add-job.html#create-job
-      glue_version="3.0",
+      glue_version="4.0",
       #XXX: Do not set Max Capacity if using Worker Type and Number of Workers
       # max_capacity=2,
       max_retries=0,

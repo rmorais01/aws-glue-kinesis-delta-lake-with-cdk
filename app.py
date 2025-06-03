@@ -20,10 +20,10 @@ APP_ENV = cdk.Environment(account=os.getenv('CDK_DEFAULT_ACCOUNT'),
 
 app = cdk.App()
 
-deltalake_conn = DeltalakeConnectionStack(app, 'GlueDeltaLakeConnection')
+#deltalake_conn = DeltalakeConnectionStack(app, 'GlueDeltaLakeConnection')
 
 s3_bucket = S3BucketStack(app, 'DeltaLakeS3Path')
-s3_bucket.add_dependency(deltalake_conn)
+#s3_bucket.add_dependency(deltalake_conn)
 
 kds_stack = KdsStack(app, 'KinesisStreamAsGlueStreamingJobDataSource')
 kds_stack.add_dependency(s3_bucket)
