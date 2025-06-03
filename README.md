@@ -1,5 +1,5 @@
 
-# AWS Glue Streaming ETL Job with Delta Lake CDK Python project!
+# AWS Glue Streaming ETL Job and Delta Lake Sample Project with CDK
 
 ![glue-streaming-data-to-deltalake-table](./glue-streaming-data-to-deltalake-table.svg)
 
@@ -62,12 +62,6 @@ For example:
 }
 </pre>
 
-:information_source: `--primary_key` option should be set by Delta Lake table's primary column name.
-
-:information_source: `--partition_key` option should be set by Delta Lake table's column name for partitioning.
-
-:warning: **You should create a S3 bucket for a glue job script and upload the glue job script file into the s3 bucket.**
-
 At this point you can now synthesize the CloudFormation template for this code.
 
 <pre>
@@ -101,22 +95,18 @@ command.
    </pre>
 5. Create Glue Streaming Job
 
-   * (step 1) Select one of Glue Job Scripts and upload into S3
+   * (step 1) Select Glue Job Scripts and upload into S3
 
      **List of Glue Job Scirpts**
      | File name | Spark Writes |
      |-----------|--------------|
      | spark_deltalake_writes_with_dataframe.py | DataFrame append |
-     | spark_deltalake_writes_with_sql_insert_overwrite.py | SQL insert overwrite |
-     | spark_deltalake_writes_with_sql_merge_into.py | SQL merge into |
 
      <pre>
      (.venv) $ ls src/main/python/
       spark_deltalake_writes_with_dataframe.py
-      spark_deltalake_writes_with_sql_insert_overwrite.py
-      spark_deltalake_writes_with_sql_merge_into.py
      (.venv) $ aws s3 mb <i>s3://aws-glue-assets-rm-demo</i> --region <i>us-east-1</i>
-     (.venv) $ aws s3 cp src/main/python/spark_deltalake_writes_with_sql_merge_into.py <i>s3://aws-glue-assets-rm-demo/scripts/</i>
+     (.venv) $ aws s3 cp src/main/python/spark_deltalake_writes_with_dataframe.py <i>s3://aws-glue-assets-rm-demo/scripts/</i>
      </pre>
 
    * (step 2) Provision the Glue Streaming Job
